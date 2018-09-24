@@ -4,10 +4,7 @@ Esta visualización presenta una recopilación de los datos asociados a las prue
 
 ### Set de datos
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
-
-```markdown
-Syntax highlighted code block
+El set de datos utilizado proviene de la siguiente URL https://www.datos.gov.co/Educaci-n/Saber-11-2018-1/w42r-j8f9, al cual se realizó un preprocesamiento para agrupar la información por departamento, promediar los puntajes y presentar el puntaje máximo y mínimo de cada departamento. Como resultado final se subió el dataset /promedioDepto.tsv, el cual queda disponible en este mismo repositorio.
 
 # Header 1
 ## Header 2
