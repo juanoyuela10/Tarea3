@@ -1,20 +1,20 @@
-### COLOMBIA... Como nos fué en las pruebas Saber 11? (Objetivo)
+# COLOMBIA... Como nos fué en las pruebas Saber 11? (Objetivo)
 
 Esta visualización presenta una recopilación de los datos asociados a las pruebas Saber 11, realizadas a lo largo del territorio nacional, presentando los promedios de los puntajes globales por cada uno de los departamentos incluidos en el dataset.
 
 ## Tecnologías usadas: D3 Version 5, JavaScript, HTML
 
-## Creado por: 
+### Creado por: 
 JUAN CARLOS OYUELA MATIZ, Cod. 201711608, Visual Analytics (201820)
 
-## Como se corre: 
+### Como se corre: 
 El proyecto se corre ingresando a la URL https://juanoyuela10.github.io/Tarea3/
 
-## Set de datos
+### Set de datos
 
 El set de datos utilizado proviene de la siguiente URL https://www.datos.gov.co/Educaci-n/Saber-11-2018-1/w42r-j8f9, al cual se realizó un preprocesamiento para agrupar la información por departamento, promediar los puntajes y presentar el puntaje máximo y mínimo de cada departamento. Como resultado final se subió el dataset /promedioDepto.tsv, el cual queda disponible en este mismo repositorio.
 
-# Descripción del set de datos
+### Descripción del set de datos
 
 Actualizado: 21 de agosto de 2018
 Datos actualizados por última vez: 21 de agosto de 2018
@@ -28,33 +28,10 @@ Cobertura Geográfica:	Nacional
 URL Documentación	http://www.icfes.gov.co/investigadores-y-estudiantes-posgrado/acceso-a-bases-de-datos
 URL Normativa	http://www.icfes.gov.co/normatividad
 
-## Descripción de la visualización
+### Descripción de la visualización
 
 Consiste en un histograma que presenta la distribución de los puntajes globales promedio por cada departamento, cuando se pasa el mouse por una de las barras se presentan los siguientes datos:
 
 - Puntaje promedio (Global del departamento)
 - Puntaje máximo obtenido en el departamento (Punto verde)
 - Puntaje mínimo obtenido en el departamento (Punto rojo)
-
-### Header 3
-
-- Bulleted
-- List
-
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
-```
-
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
-
-### Jekyll Themes
-
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/juanoyuela10/Tarea3/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://help.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
