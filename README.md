@@ -35,3 +35,5 @@ Consiste en un histograma que presenta la distribución de los puntajes globales
 - Puntaje promedio (Global del departamento)
 - Puntaje máximo obtenido en el departamento (Punto verde)
 - Puntaje mínimo obtenido en el departamento (Punto rojo)
+
+La información se puede ordenar alfabéticamente por nombre del departamento y por puntaje promedio.
