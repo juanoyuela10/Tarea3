@@ -16,7 +16,11 @@
 	  </b>
 </head>
 <hr color="#EFEFEB" />
-
+<form>
+  <div>
+    <label><input type="checkbox" /><span style="font-family: 'Arial Narrow'; font-weight: normal; font-style: normal; text-decoration: none;">Ordenar promedios</span></label>
+  </div>
+</form>
 <svg width="1200" height="500"></svg>
 <style>
 	.bar {
@@ -31,9 +35,26 @@
 	.minimos {
 		fill: Red;
 	}
+	.deptos {
+		fill: Black;
+		font-family: 'Arial Narrow';
+		font-size:'8pt';
+	}
+	.checkboxes label {
+		 display: block;
+		 float: left;
+  		 padding-right: 10px;
+  		 white-space: nowrap;
+	}
+	.checkboxes input {
+  		vertical-align: middle;
+	}
+	.checkboxes label span {
+		vertical-align: middle;
+	}
 </style>
+
 <script src="https://d3js.org/d3.v5.min.js"></script>
-<script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
 <script>
 
 let tooltip;
@@ -57,8 +78,8 @@ var x = d3.scaleBand()
 
 var y = d3.scaleLinear()
 	.rangeRound([height, 0]);
-
-var datos = d3.tsv("https://raw.githubusercontent.com/juanoyuela10/datasetsVA/master/promedioDepto.tsv").then(function (data) {
+	
+var datos = d3.tsv("https://raw.githubusercontent.com/juanoyuela10/Tarea3/master/promedioDepto.tsv").then(function (data) {
 	x.domain(data.map(function (d) {
 			return d.Departamento;
 		}));
@@ -74,7 +95,8 @@ var datos = d3.tsv("https://raw.githubusercontent.com/juanoyuela10/datasetsVA/ma
     .attr("x", 4)
     .attr("dy", ".35em")
     .attr("transform", "rotate(45)")
-    .style("text-anchor", "start");
+    .style("text-anchor", "start")
+	.style("fill", "white");
 
 	g.append("g")
 	.call(d3.axisLeft(y))
@@ -116,6 +138,7 @@ var datos = d3.tsv("https://raw.githubusercontent.com/juanoyuela10/datasetsVA/ma
           .text(`Puntaje máximo:${d.PMaximo}`);
           d3.select(this)
      });
+	 
 	//Ubicar el máximo puntaje de las pruebas en el departamento
 	g.selectAll(".maximos")
 	.data(data)
@@ -142,6 +165,22 @@ var datos = d3.tsv("https://raw.githubusercontent.com/juanoyuela10/datasetsVA/ma
 		return y(Number(d.PMinimo));
 	})
 	.attr("r","4px");
+	
+	//Ubicar la sigla del departamento
+	g.selectAll(".deptos")
+	.data(data)
+	.enter().append("text")
+	.attr("class", "deptos")
+	.attr("x", function (d) {
+		return (x(d.Departamento)+3)
+	})
+	.attr("y", height+15)
+	.text(function (d) {
+		return (d.Departamento.substring(0,4))
+	})
+	.style("font-size", "6pt")
+    .style("font-family", "arial");
+
 	//Etiqueta para los promedios
 	tooltip = g.append("text")
     .style("font-size", "10pt")
@@ -160,6 +199,72 @@ var datos = d3.tsv("https://raw.githubusercontent.com/juanoyuela10/datasetsVA/ma
     .style("font-family", "arial")  
     .style("fill", "LimeGreen")
     .style("font-weight", "bold");
+	
+	d3.select("input").on("change", change);
+
+	//Inicio del código para ordenar los elementos de la visualización								
+  var sortTimeout = setTimeout(function() {
+    d3.select("input").property("checked", true).each(change);
+  }, 2000);
+
+  function change() {
+    clearTimeout(sortTimeout);
+
+    var x0 = x.domain(data.sort(this.checked
+        ? function(a, b) { return b.PromedioPuntaje - a.PromedioPuntaje; }
+        : function(a, b) { return d3.ascending(a.Departamento, b.Departamento); })
+        .map(function(d) { return d.Departamento; }))
+        .copy();
+		
+	var x1 = x.domain(data.sort(this.checked
+        ? function(c, d) { return d.PromedioPuntaje - c.PromedioPuntaje; }
+        : function(c, d) { return d3.ascending(c.Departamento, d.Departamento); })
+        .map(function(d) { return d.Departamento; }))
+        .copy();
+		
+	var x2 = x.domain(data.sort(this.checked
+        ? function(e, f) { return f.PromedioPuntaje - e.PromedioPuntaje; }
+        : function(e, f) { return d3.ascending(e.Departamento, f.Departamento); })
+        .map(function(d) { return d.Departamento; }))
+        .copy();
+		
+	var x3 = x.domain(data.sort(this.checked
+        ? function(g, h) { return h.PromedioPuntaje - g.PromedioPuntaje; }
+        : function(g, h) { return d3.ascending(g.Departamento, h.Departamento); })
+        .map(function(d) { return d.Departamento;}))
+        .copy();		
+
+    svg.selectAll(".bar")
+        .sort(function(a, b) { return x0(a.Departamento) - x0(b.Departamento); });
+		
+	svg.selectAll(".maximos")
+        .sort(function(c, d) { return x1(c.Departamento) - x1(d.Departamento); });
+		
+	svg.selectAll(".minimos")
+        .sort(function(e, f) { return x2(e.Departamento) - x2(f.Departamento); });		
+
+	svg.selectAll(".deptos")
+        .sort(function(g, h) { return x2(g.Departamento) - x3(h.Departamento); });		
+		
+    var transition = svg.transition().duration(750),
+        delay = function(d, i) { return i * 50; };
+
+    transition.selectAll(".bar")
+        .delay(delay)
+        .attr("x", function(d) { return x0(d.Departamento); });
+		
+    transition.selectAll(".maximos")
+        .delay(delay)
+        .attr("cx", function(d) { return (x1(d.Departamento)+13); });
+    
+	transition.selectAll(".minimos")
+        .delay(delay)
+        .attr("cx", function(d) { return (x2(d.Departamento)+13); });		
+
+	transition.selectAll(".deptos")
+        .delay(delay)
+        .attr("x", function(d) { return (x3(d.Departamento)+5); })    
+  }
 });
 
 </script>
@@ -170,12 +275,13 @@ var datos = d3.tsv("https://raw.githubusercontent.com/juanoyuela10/datasetsVA/ma
 <td><p style=" text-align: left; text-indent: 0px; padding: 0px 0px 0px 0px; margin: 0px 0px 0px 0px;"><img width="163" height="78" alt="" hspace=1 vspace=1 src="logoUA.png"></p>
 </td>
 <td>
-	<span style="font-family: 'Bahnschrift SemiCondensed', Arial; font-weight: normal; font-style: normal; text-decoration: none;">Presentado por: Juan Carlos Oyuela Matiz</span>
+	<span style="font-family: 'Bahnschrift SemiCondensed', Arial; font-weight: normal; font-style: normal; text-decoration: none;">Presentado por: <a href="mailto:jc.oyuela@uniandes.edu.co" onMouseOver="window.status='Contactar al desarrollador'; return true;" onMouseOut="window.status=' '; return true;">Juan Carlos Oyuela Matiz</a></span>
 </td>
 <td>
-	<span style="font-family: 'Bahnschrift SemiCondensed', Arial; font-weight: normal; font-style: normal; text-decoration: none;;">Código: 201711608</span>
+	<span style="font-family: 'Bahnschrift SemiCondensed', Arial; font-weight: normal; font-style: normal; text-decoration: none;">Código: 201711608</span>
 </td>
-<td width="500"><p style=" text-align: Right; text-indent: 0px; padding: 0px 0px 0px 0px; margin: 0px 0px 0px 0px;"><span style=" font-size: 10pt; font-family: 'Arial', 'Helvetica', sans-serif; font-style: normal; font-weight: normal; color: #000000; background-color: transparent; text-decoration: none;"><b>MAESTRIA EN INGENIERÍA DE INFORMACIÓN</b></span></p>
+<td>
+	<span style="font-family: 'Bahnschrift SemiCondensed', Arial; font-weight: normal; font-style: normal; text-decoration: none;">MINE - Visual Analytics 201820</span>
 </td>
 <td width="1"><br />
 </tr>
