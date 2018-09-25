@@ -8,7 +8,7 @@ Esta visualización presenta una recopilación de los datos asociados a las prue
 JUAN CARLOS OYUELA MATIZ, Cod. 201711608, Visual Analytics (201820)
 
 ### Como se corre: 
-El proyecto se corre ingresando a la URL https://juanoyuela10.github.io/Tarea3/
+El proyecto se corre ingresando a la URL https://juanoyuela10.github.io/Tarea3/index.html
 
 ### Set de datos
 
